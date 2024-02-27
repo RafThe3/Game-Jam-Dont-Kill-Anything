@@ -5,12 +5,15 @@ using UnityEngine;
 
 public class RaycastShooting : MonoBehaviour
 {
-    [SerializeField] private GameObject raycastVisual;
+    [SerializeField] private bool debug = true;
+    [SerializeField] private bool meleeRaycast = true;
+    [SerializeField] private bool rangedRaycast;
     [SerializeField] private bool canShoot = true;
+    [SerializeField] private GameObject raycastVisual;
+    [SerializeField] private GameObject collisionPoint;
 
     private LineRenderer lineRenderer;
-
-    private void Start()
+    private void Awake()
     {
         lineRenderer = GetComponent<LineRenderer>();
     }
@@ -19,7 +22,7 @@ public class RaycastShooting : MonoBehaviour
     {
         if (Input.GetButtonDown("Fire1"))
         {
-            Shoot();
+            Melee();
         }
     }
     private void Shoot()
@@ -42,7 +45,7 @@ public class RaycastShooting : MonoBehaviour
                 GameObject raycastBullet = Instantiate(raycastVisual, hit.point, Camera.main.transform.rotation);
                 Destroy(raycastBullet, 1);
                 Debug.Log("Hit " + hit.collider.name);
-                if (hit.collider.CompareTag("Enemy"))
+                if (hit.collider.gameObject.tag == "Enemy")
                 {
                     Destroy(hit.collider.gameObject);
                 }
@@ -50,10 +53,42 @@ public class RaycastShooting : MonoBehaviour
         }
     }
 
+    private void Melee()
+    {
+        Collider[] hits = Physics.OverlapSphere(collisionPoint.transform.position, 0.5f);
+
+        foreach (Collider hit in hits)
+        {
+            if (hit.transform.root != transform)
+            {
+                GameObject debugHit = GameObject.Instantiate(raycastVisual, collisionPoint.transform.position, Camera.main.transform.rotation);
+                Debug.Log(hit.name);
+                Destroy(debugHit, 1);
+            }
+            if (hit.GetComponent<Collider>().CompareTag("Enemy"))
+            {
+                hit.gameObject.GetComponent<HealthSystem>().TakeDamage(1);
+            }
+        }
+    }
+
     private IEnumerator RaycastDebug()
     {
-        lineRenderer.enabled = true;
-        yield return new WaitForSeconds(1);
-        lineRenderer.enabled = false;
+        if (!debug)
+        {
+            yield return null;
+        }
+        else
+        {
+            if (!lineRenderer.enabled)
+            {
+                lineRenderer.enabled = true;
+            }
+            else
+            {
+                lineRenderer.enabled = false;
+                lineRenderer.enabled = true;
+            }
+        }
     }
 }
