@@ -6,14 +6,16 @@ using UnityEngine;
 public class RaycastShooting : MonoBehaviour
 {
     [SerializeField] private GameObject raycastVisual;
-    LineRenderer lineRenderer;
+    [SerializeField] private bool canShoot = true;
 
-    void Start()
+    private LineRenderer lineRenderer;
+
+    private void Start()
     {
         lineRenderer = GetComponent<LineRenderer>();
     }
 
-    void Update()
+    private void Update()
     {
         if (Input.GetButtonDown("Fire1"))
         {
@@ -22,9 +24,14 @@ public class RaycastShooting : MonoBehaviour
     }
     private void Shoot()
     {
-        RaycastHit hit;
-        Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
-        if (Physics.Raycast(ray, out hit))
+        if (!canShoot)
+        {
+            return;
+        }
+
+        Ray shootDirection = new(Camera.main.transform.position, Camera.main.transform.forward);
+
+        if (Physics.Raycast(shootDirection, out RaycastHit hit))
         {
             if (hit.collider != null)
             {
@@ -36,7 +43,7 @@ public class RaycastShooting : MonoBehaviour
                 raycastBullet = GameObject.Instantiate(raycastVisual, hit.point, Camera.main.transform.rotation);
                 Debug.Log("Hit " + hit.collider.name);
                 Destroy(raycastBullet, 1);
-                if (hit.collider.gameObject.tag == "Enemy")
+                if (hit.collider.CompareTag("Enemy"))
                 {
                     Destroy(hit.collider.gameObject);
                 }
