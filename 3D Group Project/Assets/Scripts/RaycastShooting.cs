@@ -57,6 +57,8 @@ public class RaycastShooting : MonoBehaviour
     {
         Collider[] hits = Physics.OverlapSphere(collisionPoint.transform.position, 0.5f);
 
+        Debug.Log("test");
+
         foreach (Collider hit in hits)
         {
             if (hit.transform.root != transform)
