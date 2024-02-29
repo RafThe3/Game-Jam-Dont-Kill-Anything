@@ -15,6 +15,7 @@ public class RaycastShooting : MonoBehaviour
     [SerializeField] private bool meleeRaycast = true;
     [SerializeField] private bool rangedRaycast = false;
     [SerializeField] private bool canAttack = true;
+    [SerializeField] private bool canInteract = true;
 
     [Header("Weapon Settings")]
     [SerializeField] private float meleeCooldown = 1;
@@ -40,6 +41,8 @@ public class RaycastShooting : MonoBehaviour
         {
             Shoot();
         }
+
+        InteractionRaycast();
     }
     private void Shoot()
     {
@@ -76,7 +79,6 @@ public class RaycastShooting : MonoBehaviour
             }
         }
     }
-
     private void Melee()
     {
         Collider[] hits = Physics.OverlapSphere(collisionPoint.transform.position, meleeRadius);
@@ -103,6 +105,34 @@ public class RaycastShooting : MonoBehaviour
         }
         StartCoroutine(cooldown);
     }
+    private void InteractionRaycast()
+    {
+        Ray shootDirection = new(Camera.main.transform.position, Camera.main.transform.forward);
+
+        if (!canInteract)
+        {
+            return;
+        }
+
+        if (Physics.Raycast(shootDirection, out RaycastHit hit))
+        {
+            if (hit.collider != null)
+            {
+                IEnumerator debugRaycast = RaycastDebug();
+                IEnumerator interactCooldown = InteractionCooldown(0.1f);
+
+                StartCoroutine(debugRaycast);
+                GameObject raycastBullet = Instantiate(raycastVisual, hit.point, Camera.main.transform.rotation);
+                Destroy(raycastBullet, 1);
+                Debug.Log("Hit " + hit.collider.name);
+                if (hit.collider.CompareTag("Item"))
+                {
+                    Debug.Log("Can pick this up.");
+                }
+                StartCoroutine(interactCooldown);
+            }
+        }
+    }
 
     private IEnumerator RaycastDebug()
     {
@@ -123,12 +153,17 @@ public class RaycastShooting : MonoBehaviour
             }
         }
     }
-
     private IEnumerator WeaponCooldown(float seconds)
     {
         canAttack = false;
         yield return new WaitForSeconds(seconds);
         canAttack = true;
+    }
+    private IEnumerator InteractionCooldown(float seconds)
+    {
+        canInteract = false;
+        yield return new WaitForSeconds(seconds);
+        canInteract = true;
     }
 
     // for editing in-game

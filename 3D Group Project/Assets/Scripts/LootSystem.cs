@@ -40,10 +40,5 @@ public class LootSystem : MonoBehaviour
     {
         return Random.Range(loot.minQuantity, loot.maxQuantity);
     }
-
-    private void DropLoot()
-    {
-        Debug.Log("dropped");
-    }
 }
 

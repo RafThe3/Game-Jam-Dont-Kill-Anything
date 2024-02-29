@@ -7,6 +7,7 @@ TagManager:
   - CinemachineTarget
   - Enemy
   - Terrain
+  - Item
   layers:
   - Default
   - TransparentFX
