@@ -7,6 +7,7 @@ public class RaycastShooting : MonoBehaviour
 {
     [Header("Debug")]
     [SerializeField] private bool debug = true;
+    [SerializeField] private bool healyShot = false;
     [SerializeField] private GameObject raycastVisual;
     [SerializeField] private GameObject collisionPoint;
 
@@ -17,8 +18,11 @@ public class RaycastShooting : MonoBehaviour
 
     [Header("Weapon Settings")]
     [SerializeField] private float meleeCooldown = 1;
-    [SerializeField] private float rangedCooldown = 0.5f;
+    [Min(0), SerializeField] private float meleeDamage = 1;
     [Min(0.1f), SerializeField] private float meleeRadius = 0.5f;
+    [SerializeField] private float rangedCooldown = 0.5f;
+    [Min(0), SerializeField] private float rangedDamage = 0.5f;
+    [Min(0.1f), SerializeField] private float rangedRange = 5f;
 
     private LineRenderer lineRenderer;
     private void Awake()
@@ -26,7 +30,6 @@ public class RaycastShooting : MonoBehaviour
         lineRenderer = GetComponent<LineRenderer>();
         collisionPoint.transform.localScale = new Vector3(meleeRadius * 2, meleeRadius * 2, meleeRadius * 2);
     }
-
     private void Update()
     {
         if (Input.GetButtonDown("Fire1"))
@@ -60,7 +63,14 @@ public class RaycastShooting : MonoBehaviour
                 Debug.Log("Hit " + hit.collider.name);
                 if (hit.collider.CompareTag("Enemy"))
                 {
-                    hit.collider.gameObject.GetComponent<HealthSystem>().TakeDamage(1);
+                    if(healyShot)
+                    {
+                        hit.collider.gameObject.GetComponent<HealthSystem>().HealDamage(rangedDamage);
+                    }
+                    else
+                    {
+                        hit.collider.gameObject.GetComponent<HealthSystem>().TakeDamage(rangedDamage);
+                    }
                 }
                 StartCoroutine(cooldown);
             }
@@ -82,14 +92,13 @@ public class RaycastShooting : MonoBehaviour
         {
             if (!hit.gameObject.CompareTag("Player") || !hit.gameObject.CompareTag("Terrain"))
             {
-                Debug.Log("boogy");
                 GameObject debugHit = Instantiate(raycastVisual, collisionPoint.transform.position, Camera.main.transform.rotation);
                 Debug.Log(hit.name);
                 Destroy(debugHit, 1);
             }
             if (hit.GetComponent<Collider>().CompareTag("Enemy"))
             {
-                hit.gameObject.GetComponent<HealthSystem>().TakeDamage(1);
+                hit.gameObject.GetComponent<HealthSystem>().TakeDamage(meleeDamage);
             }
         }
         StartCoroutine(cooldown);
