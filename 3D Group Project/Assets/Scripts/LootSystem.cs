@@ -7,6 +7,7 @@ using UnityEngine;
 public class LootSystem : MonoBehaviour
 {
     [SerializeField] private Loot_Behavior[] lootTable;
+    [SerializeField] private float lootSpread = 0;
     private GameObject lootStorage;
 
     private void Awake()
@@ -18,6 +19,7 @@ public class LootSystem : MonoBehaviour
     {
         ArrayList dropList = new ArrayList();
         float drawn = Random.Range(0f, 100f);
+        lootSpread = Random.Range(0f, 5f);
 
         foreach (Loot_Behavior loot in lootTable)
         {
@@ -27,7 +29,7 @@ public class LootSystem : MonoBehaviour
                 dropList.Add(loot);
                 for(int i = 0; i < loot.Quantity; i++)
                 {
-                    Instantiate(loot);
+                    Instantiate(loot, gameObject.transform.position + new Vector3(lootSpread, 0, lootSpread), Quaternion.identity);
                 }
             }
         }
