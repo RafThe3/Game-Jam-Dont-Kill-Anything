@@ -61,7 +61,7 @@ public class RaycastShooting : MonoBehaviour
         {
             if (hit.transform.root != transform)
             {
-                GameObject debugHit = GameObject.Instantiate(raycastVisual, collisionPoint.transform.position, Camera.main.transform.rotation);
+                GameObject debugHit = Instantiate(raycastVisual, collisionPoint.transform.position, Camera.main.transform.rotation);
                 Debug.Log(hit.name);
                 Destroy(debugHit, 1);
             }
