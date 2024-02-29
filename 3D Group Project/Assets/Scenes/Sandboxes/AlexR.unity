@@ -146,13 +146,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   debug: 1
+  raycastVisual: {fileID: 2620686929633342601, guid: 2f3f4542179edb14299c9a89ac41fbe7, type: 3}
+  collisionPoint: {fileID: 632404241}
   meleeRaycast: 1
   rangedRaycast: 0
   canAttack: 1
-  raycastVisual: {fileID: 2620686929633342601, guid: 2f3f4542179edb14299c9a89ac41fbe7, type: 3}
-  collisionPoint: {fileID: 632404241}
   meleeCooldown: 1
   rangedCooldown: 0.5
+  meleeRadius: 0.5
 --- !u!1 &150396924
 GameObject:
   m_ObjectHideFlags: 0
@@ -454,7 +455,7 @@ GameObject:
   - component: {fileID: 632404242}
   m_Layer: 8
   m_Name: MeleePoint
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -531,6 +532,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5393215578589016642, guid: c5efc39a8aaf6e64ea40e9ad573e9b47, type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
     - target: {fileID: 8616685848737228372, guid: c5efc39a8aaf6e64ea40e9ad573e9b47, type: 3}
       propertyPath: m_Name
       value: PlayerCapsule

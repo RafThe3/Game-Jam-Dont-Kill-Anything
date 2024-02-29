@@ -24,7 +24,7 @@ public class RaycastShooting : MonoBehaviour
     private void Awake()
     {
         lineRenderer = GetComponent<LineRenderer>();
-        collisionPoint.transform.localScale = new Vector3(meleeRadius, meleeRadius, meleeRadius);
+        collisionPoint.transform.localScale = new Vector3(meleeRadius * 2, meleeRadius * 2, meleeRadius * 2);
     }
 
     private void Update()
@@ -32,6 +32,10 @@ public class RaycastShooting : MonoBehaviour
         if (Input.GetButtonDown("Fire1"))
         {
             Melee();
+        }
+        else if (Input.GetButtonDown("Fire2"))
+        {
+            Shoot();
         }
     }
     private void Shoot()
@@ -48,23 +52,24 @@ public class RaycastShooting : MonoBehaviour
             if (hit.collider != null)
             {
                 IEnumerator debugRaycast = RaycastDebug();
-                lineRenderer.SetPosition(0, transform.position);
-                lineRenderer.SetPosition(1, hit.point);
+                IEnumerator cooldown = WeaponCooldown(rangedCooldown);
+
                 StartCoroutine(debugRaycast);
                 GameObject raycastBullet = Instantiate(raycastVisual, hit.point, Camera.main.transform.rotation);
                 Destroy(raycastBullet, 1);
                 Debug.Log("Hit " + hit.collider.name);
                 if (hit.collider.CompareTag("Enemy"))
                 {
-                    Destroy(hit.collider.gameObject);
+                    hit.collider.gameObject.GetComponent<HealthSystem>().TakeDamage(1);
                 }
+                StartCoroutine(cooldown);
             }
         }
     }
 
     private void Melee()
     {
-        Collider[] hits = Physics.OverlapSphere(collisionPoint.transform.position, 0.5f);
+        Collider[] hits = Physics.OverlapSphere(collisionPoint.transform.position, meleeRadius);
         IEnumerator cooldown = WeaponCooldown(meleeCooldown);
         Debug.Log("test");
 
@@ -75,8 +80,9 @@ public class RaycastShooting : MonoBehaviour
 
         foreach (Collider hit in hits)
         {
-            if (hit.transform.root != transform)
+            if (!hit.gameObject.CompareTag("Player") || !hit.gameObject.CompareTag("Terrain"))
             {
+                Debug.Log("boogy");
                 GameObject debugHit = Instantiate(raycastVisual, collisionPoint.transform.position, Camera.main.transform.rotation);
                 Debug.Log(hit.name);
                 Destroy(debugHit, 1);
@@ -84,9 +90,9 @@ public class RaycastShooting : MonoBehaviour
             if (hit.GetComponent<Collider>().CompareTag("Enemy"))
             {
                 hit.gameObject.GetComponent<HealthSystem>().TakeDamage(1);
-                StartCoroutine(cooldown);
             }
         }
+        StartCoroutine(cooldown);
     }
 
     private IEnumerator RaycastDebug()
@@ -120,6 +126,6 @@ public class RaycastShooting : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.DrawWireSphere(collisionPoint.transform.position, meleeRadius);
-        Gizmos.color = Color.red;
+        Gizmos.color = Color.green;
     }
 }
