@@ -96,9 +96,12 @@ public class RaycastShooting : MonoBehaviour
         {
             if (!hit.gameObject.CompareTag("Player") || !hit.gameObject.CompareTag("Terrain"))
             {
-                GameObject debugHit = Instantiate(raycastVisual, collisionPoint.transform.position, Camera.main.transform.rotation);
-                Debug.Log(hit.name);
-                Destroy(debugHit, 1);
+                if(debug)
+                {
+                    GameObject debugHit = Instantiate(raycastVisual, collisionPoint.transform.position, Camera.main.transform.rotation);
+                    Debug.Log(hit.name);
+                    Destroy(debugHit, 1);
+                }
             }
             if (hit.GetComponent<Collider>().CompareTag("Enemy"))
             {
@@ -122,10 +125,13 @@ public class RaycastShooting : MonoBehaviour
             {
                 IEnumerator debugRaycast = RaycastDebug();
                 IEnumerator interactCooldown = InteractionCooldown(0.1f);
-                StartCoroutine(debugRaycast);
-                GameObject raycastBullet = Instantiate(raycastVisual, hit.point, Camera.main.transform.rotation);
-                Destroy(raycastBullet, 1);
-                Debug.Log("Hit " + hit.collider.name);
+                if(debug)
+                {
+                    StartCoroutine(debugRaycast);
+                    GameObject raycastBullet = Instantiate(raycastVisual, hit.point, Camera.main.transform.rotation);
+                    Destroy(raycastBullet, 1);
+                    Debug.Log("Hit " + hit.collider.name);
+                }
                 if (hit.collider.CompareTag("Item"))
                 {
                     Debug.Log("Can pick this up.");
