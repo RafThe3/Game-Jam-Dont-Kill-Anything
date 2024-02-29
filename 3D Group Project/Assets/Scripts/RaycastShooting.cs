@@ -26,6 +26,8 @@ public class RaycastShooting : MonoBehaviour
     [Min(0.1f), SerializeField] private float rangedRange = 5f;
 
     private LineRenderer lineRenderer;
+    private bool canPickup = false;
+
     private void Awake()
     {
         lineRenderer = GetComponent<LineRenderer>();
@@ -120,7 +122,6 @@ public class RaycastShooting : MonoBehaviour
             {
                 IEnumerator debugRaycast = RaycastDebug();
                 IEnumerator interactCooldown = InteractionCooldown(0.1f);
-
                 StartCoroutine(debugRaycast);
                 GameObject raycastBullet = Instantiate(raycastVisual, hit.point, Camera.main.transform.rotation);
                 Destroy(raycastBullet, 1);
@@ -128,6 +129,11 @@ public class RaycastShooting : MonoBehaviour
                 if (hit.collider.CompareTag("Item"))
                 {
                     Debug.Log("Can pick this up.");
+                    canPickup = true;
+                }
+                else
+                {
+                    canPickup = false;
                 }
                 StartCoroutine(interactCooldown);
             }

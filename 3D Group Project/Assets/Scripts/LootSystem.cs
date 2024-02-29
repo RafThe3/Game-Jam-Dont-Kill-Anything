@@ -29,7 +29,7 @@ public class LootSystem : MonoBehaviour
                 dropList.Add(loot);
                 for(int i = 0; i < loot.Quantity; i++)
                 {
-                    Instantiate(loot, gameObject.transform.position + new Vector3(lootSpread, 0, lootSpread), Quaternion.identity);
+                    Instantiate(loot, gameObject.transform.position, Quaternion.identity);
                 }
             }
         }
