@@ -45,7 +45,7 @@ public class RaycastShooting : MonoBehaviour
                 GameObject raycastBullet = Instantiate(raycastVisual, hit.point, Camera.main.transform.rotation);
                 Destroy(raycastBullet, 1);
                 Debug.Log("Hit " + hit.collider.name);
-                if (hit.collider.gameObject.tag == "Enemy")
+                if (hit.collider.CompareTag("Enemy"))
                 {
                     Destroy(hit.collider.gameObject);
                 }
