@@ -5,17 +5,26 @@ using UnityEngine;
 
 public class RaycastShooting : MonoBehaviour
 {
+    [Header("Debug")]
     [SerializeField] private bool debug = true;
-    [SerializeField] private bool meleeRaycast = true;
-    [SerializeField] private bool rangedRaycast;
-    [SerializeField] private bool canShoot = true;
     [SerializeField] private GameObject raycastVisual;
     [SerializeField] private GameObject collisionPoint;
+
+    [Header("Weapon Variables")]
+    [SerializeField] private bool meleeRaycast = true;
+    [SerializeField] private bool rangedRaycast = false;
+    [SerializeField] private bool canAttack = true;
+
+    [Header("Weapon Settings")]
+    [SerializeField] private float meleeCooldown = 1;
+    [SerializeField] private float rangedCooldown = 0.5f;
+    [Min(0.1f), SerializeField] private float meleeRadius = 0.5f;
 
     private LineRenderer lineRenderer;
     private void Awake()
     {
         lineRenderer = GetComponent<LineRenderer>();
+        collisionPoint.transform.localScale = new Vector3(meleeRadius, meleeRadius, meleeRadius);
     }
 
     private void Update()
@@ -27,7 +36,7 @@ public class RaycastShooting : MonoBehaviour
     }
     private void Shoot()
     {
-        if (!canShoot)
+        if (!canAttack)
         {
             return;
         }
@@ -38,10 +47,10 @@ public class RaycastShooting : MonoBehaviour
         {
             if (hit.collider != null)
             {
-                IEnumerator coroutine = RaycastDebug();
+                IEnumerator debugRaycast = RaycastDebug();
                 lineRenderer.SetPosition(0, transform.position);
                 lineRenderer.SetPosition(1, hit.point);
-                StartCoroutine(coroutine);
+                StartCoroutine(debugRaycast);
                 GameObject raycastBullet = Instantiate(raycastVisual, hit.point, Camera.main.transform.rotation);
                 Destroy(raycastBullet, 1);
                 Debug.Log("Hit " + hit.collider.name);
@@ -56,6 +65,13 @@ public class RaycastShooting : MonoBehaviour
     private void Melee()
     {
         Collider[] hits = Physics.OverlapSphere(collisionPoint.transform.position, 0.5f);
+        IEnumerator cooldown = WeaponCooldown(meleeCooldown);
+        Debug.Log("test");
+
+        if (!canAttack)
+        {
+            return;
+        }
 
         foreach (Collider hit in hits)
         {
@@ -68,6 +84,7 @@ public class RaycastShooting : MonoBehaviour
             if (hit.GetComponent<Collider>().CompareTag("Enemy"))
             {
                 hit.gameObject.GetComponent<HealthSystem>().TakeDamage(1);
+                StartCoroutine(cooldown);
             }
         }
     }
@@ -90,5 +107,19 @@ public class RaycastShooting : MonoBehaviour
                 lineRenderer.enabled = true;
             }
         }
+    }
+
+    private IEnumerator WeaponCooldown(float seconds)
+    {
+        canAttack = false;
+        yield return new WaitForSeconds(seconds);
+        canAttack = true;
+    }
+
+    // for editing in-game
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawWireSphere(collisionPoint.transform.position, meleeRadius);
+        Gizmos.color = Color.red;
     }
 }

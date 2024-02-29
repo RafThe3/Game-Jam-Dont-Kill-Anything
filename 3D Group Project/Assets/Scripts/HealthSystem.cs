@@ -28,6 +28,6 @@ public class HealthSystem : MonoBehaviour
     public void Die()
     {
         Debug.Log("BLEHHHH.. killed " + gameObject);
-        GameObject.Destroy(transform);
+        Destroy(gameObject);
     }
 }
