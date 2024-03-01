@@ -31,6 +31,11 @@ public class Player : MonoBehaviour
     [SerializeField] private Color defaultHungerBarColor = Color.yellow;
     [SerializeField] private Color lowHungerColor = Color.red;
 
+    [Header("Pickup")]
+    [SerializeField] private GameObject hand;
+    [Min(0), SerializeField] private float pickupDistance = 1;
+    [SerializeField] private TMPro.TextMeshProUGUI interactText;
+
     //Internal Variables
     private int healthPacks = 0, currentHealth = 0, currentHunger = 0;
     private AudioSource audioSource;
@@ -69,7 +74,7 @@ public class Player : MonoBehaviour
             Die();
         }
 
-        if (Input.GetKeyDown(KeyCode.E) && !isHealing)
+        if (Input.GetKeyDown(KeyCode.Q) && !isHealing)
         {
             StartCoroutine(Heal(healAmount));
         }
@@ -79,12 +84,29 @@ public class Player : MonoBehaviour
             AutoTakeDamage(healthDecreaseAmount);
         }
 
-        //test
-        if (Input.GetKeyDown(KeyCode.Q))
+        Ray pickupDirection = new(Camera.main.transform.position, Camera.main.transform.forward);
+        bool isNearObject = Physics.Raycast(pickupDirection, out RaycastHit hit, pickupDistance);
+
+        interactText.enabled = isNearObject && hit.collider.CompareTag("Item");
+
+        if (isNearObject)
         {
-            TakeDamage(10);
+            bool isItem = hit.collider.CompareTag("Item");
+
+            if (isItem)
+            {
+                interactText.text = $"Press [E] to pickup {hit.collider.name}";
+            }
+
+            Debug.Log("Can pickup object");
+
+            if (Input.GetKeyDown(KeyCode.E) && isItem)
+            {
+                PickupObject(hit);
+            }
         }
 
+        //test
         if (Input.GetKeyDown(KeyCode.F) && !isEating)
         {
             StartCoroutine(Eat(10));
@@ -93,6 +115,7 @@ public class Player : MonoBehaviour
 
     //Methods
 
+    //Health
     private void FixHealthBugs()
     {
         if (currentHealth < 0)
@@ -180,6 +203,16 @@ public class Player : MonoBehaviour
         }
     }
 
+    //Other
+    private void PickupObject(RaycastHit hit)
+    {
+        Quaternion resetRotation = new(0, 0, 0, 0);
+        GameObject clone = Instantiate(hit.collider.gameObject, hand.transform.position, resetRotation, hand.transform);
+        clone.GetComponent<Rigidbody>().isKinematic = true;
+        Destroy(hit.collider.gameObject);
+    }
+
+    //UI
     private void UpdateUI()
     {
         healthPacksText.text = $"Health Packs: {healthPacks}";
@@ -199,4 +232,6 @@ public class Player : MonoBehaviour
                 break;
         }
     }
+
+    private void OnDrawGizmos() => Gizmos.DrawWireSphere(transform.position, pickupDistance);
 }
