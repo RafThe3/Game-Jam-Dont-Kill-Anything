@@ -58,23 +58,11 @@ public class Player : MonoBehaviour
         }
     }
 
-    [System.Obsolete]
     private void Update()
     {
         FixHealthBugs();
         UpdateUI();
-        if (currentHunger <= 0)
-        {
-            hungerDecreaseTimer = 0;
-            healthDecreaseTimer += Time.deltaTime;
-        }
-        else
-        {
-            healthDecreaseTimer = 0;
-            hungerDecreaseTimer += Time.deltaTime;
-        }
         DecreaseHunger(hungerDecreaseAmount);
-        Debug.Log($"this is: {hungerDecreaseTimer}");
 
         if (currentHealth <= 0)
         {
@@ -199,5 +187,16 @@ public class Player : MonoBehaviour
         hungerBar.value = currentHunger;
         healthBarFillArea.color = currentHealth > 25 ? defaultHealthColor : lowHealthColor;
         hungerBarFillArea.color = currentHunger > 25 ? defaultHungerBarColor : lowHungerColor;
+        switch (currentHunger)
+        {
+            case <= 0:
+                hungerDecreaseTimer = 0;
+                healthDecreaseTimer += Time.deltaTime;
+                break;
+            default:
+                healthDecreaseTimer = 0;
+                hungerDecreaseTimer += Time.deltaTime;
+                break;
+        }
     }
 }

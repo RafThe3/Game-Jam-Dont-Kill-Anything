@@ -19,13 +19,6 @@ public class EnemyNavMove : MonoBehaviour
     void Update()
     {
         Vector3 moveDir = player.transform.position - transform.position;
-        if(moveDir.magnitude < chaseDistance ) 
-        {
-            agent.destination = player.transform.position;
-        }
-        else
-        {
-            agent.destination = home;
-        }
+        agent.destination = moveDir.magnitude < chaseDistance ? player.transform.position : home;
     }
 }
