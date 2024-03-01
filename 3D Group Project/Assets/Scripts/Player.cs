@@ -32,11 +32,15 @@ public class Player : MonoBehaviour
     [SerializeField] private Color lowHungerColor = Color.red;
 
     [Header("Pickup")]
+    [SerializeField] private bool canPickup = true;
     [SerializeField] private GameObject hand;
     [Min(0), SerializeField] private float pickupDistance = 1;
-    [SerializeField] private TMPro.TextMeshProUGUI interactText;
+    [SerializeField] private TextMeshProUGUI interactText;
+    [SerializeField] private GameObject inventory;
 
     //Internal Variables
+
+    //Health
     private int healthPacks = 0, currentHealth = 0, currentHunger = 0;
     private AudioSource audioSource;
     private bool isHealing, isEating;
@@ -89,13 +93,13 @@ public class Player : MonoBehaviour
 
         interactText.enabled = isNearObject && hit.collider.CompareTag("Item");
 
-        if (isNearObject)
+        if (isNearObject && canPickup)
         {
             bool isItem = hit.collider.CompareTag("Item");
 
             if (isItem)
             {
-                interactText.text = $"Press [E] to pickup {hit.collider.name}";
+                interactText.text = $"Press {KeyCode.E} to pickup {hit.collider.name}";
             }
 
             Debug.Log("Can pickup object");
@@ -104,6 +108,12 @@ public class Player : MonoBehaviour
             {
                 PickupObject(hit);
             }
+        }
+
+        //Press Tab to holster items or have in hand
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            //code
         }
 
         //test
@@ -207,8 +217,11 @@ public class Player : MonoBehaviour
     private void PickupObject(RaycastHit hit)
     {
         Quaternion resetRotation = new(0, 0, 0, 0);
+        //GameObject clone = Instantiate(hit.collider.gameObject, inventory.transform.position, resetRotation, inventory.transform);
         GameObject clone = Instantiate(hit.collider.gameObject, hand.transform.position, resetRotation, hand.transform);
         clone.GetComponent<Rigidbody>().isKinematic = true;
+        clone.GetComponent<Collider>().isTrigger = true;
+        //clone.SetActive(false);
         Destroy(hit.collider.gameObject);
     }
 
