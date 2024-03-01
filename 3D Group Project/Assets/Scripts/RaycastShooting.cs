@@ -5,6 +5,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.ProBuilder;
+using static UnityEngine.Rendering.DebugUI;
 
 public class RaycastShooting : MonoBehaviour
 {
@@ -172,11 +173,6 @@ public class RaycastShooting : MonoBehaviour
                     Debug.Log("Can pick this up.");
                     canPickup = true;
                     pickupText.text = "Pick up " + hit.collider.name;
-                }
-                else
-                {
-                    pickupText.GetComponent<TextMeshProUGUI>().enabled = false;
-                    canPickup = false;
                 }
             }
         }
