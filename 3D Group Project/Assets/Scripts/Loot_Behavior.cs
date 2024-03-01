@@ -10,5 +10,9 @@ public class Loot_Behavior : MonoBehaviour
     public int minQuantity;
     public int maxQuantity;
 
+    public bool isFood = false;
+    public bool isMaterial = false;
+    public bool isAmmo = false;
+
     public int Quantity { get; set; }
 }

@@ -51,6 +51,9 @@ MonoBehaviour:
   chance: 50
   minQuantity: 1
   maxQuantity: 3
+  isFood: 0
+  isMaterial: 1
+  isAmmo: 0
 --- !u!33 &3945948632564848053
 MeshFilter:
   m_ObjectHideFlags: 0

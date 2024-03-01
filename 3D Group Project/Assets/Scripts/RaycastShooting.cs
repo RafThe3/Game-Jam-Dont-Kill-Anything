@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -27,12 +28,16 @@ public class RaycastShooting : MonoBehaviour
     [Min(0), SerializeField] private float rangedDamage = 0.5f;
     [Min(0.1f), SerializeField] private float rangedRange = 5f;
 
+    [Header("Other")]
+    [SerializeField] private TextMeshProUGUI pickupText;
+
     private LineRenderer lineRenderer;
     public bool canPickup = false;
 
     private void Awake()
     {
         lineRenderer = GetComponent<LineRenderer>();
+        pickupText.GetComponent<TextMeshProUGUI>().enabled = false;
         collisionPoint.transform.localScale = new Vector3(meleeRadius * 2, meleeRadius * 2, meleeRadius * 2);
     }
     private void Update()
@@ -163,11 +168,14 @@ public class RaycastShooting : MonoBehaviour
                 }
                 if (hit.collider.CompareTag("Item"))
                 {
+                    pickupText.GetComponent<TextMeshProUGUI>().enabled = true;
                     Debug.Log("Can pick this up.");
                     canPickup = true;
+                    pickupText.text = "Pick up " + hit.collider.name;
                 }
                 else
                 {
+                    pickupText.GetComponent<TextMeshProUGUI>().enabled = false;
                     canPickup = false;
                 }
             }
