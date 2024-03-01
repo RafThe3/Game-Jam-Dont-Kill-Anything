@@ -185,6 +185,7 @@ MonoBehaviour:
   rangedCooldown: 0.5
   rangedDamage: 0.5
   rangedRange: 0.5
+  canPickup: 0
 --- !u!120 &111785460
 LineRenderer:
   serializedVersion: 2
@@ -1923,10 +1924,10 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 8616685848737228372, guid: c5efc39a8aaf6e64ea40e9ad573e9b47, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 111785459}
+      addedObject: {fileID: 111785460}
     - targetCorrespondingSourceObject: {fileID: 8616685848737228372, guid: c5efc39a8aaf6e64ea40e9ad573e9b47, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 111785460}
+      addedObject: {fileID: 111785459}
   m_SourcePrefab: {fileID: 100100000, guid: c5efc39a8aaf6e64ea40e9ad573e9b47, type: 3}
 --- !u!1 &1178282681
 GameObject:

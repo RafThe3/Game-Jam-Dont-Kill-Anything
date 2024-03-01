@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.ProBuilder;
 
 public class RaycastShooting : MonoBehaviour
 {
@@ -26,7 +28,7 @@ public class RaycastShooting : MonoBehaviour
     [Min(0.1f), SerializeField] private float rangedRange = 5f;
 
     private LineRenderer lineRenderer;
-    private bool canPickup = false;
+    public bool canPickup = false;
 
     private void Awake()
     {
@@ -35,6 +37,8 @@ public class RaycastShooting : MonoBehaviour
     }
     private void Update()
     {
+        IEnumerator raycast = InteractionRaycast();
+
         if (Input.GetButtonDown("Fire1"))
         {
             Melee();
@@ -44,7 +48,7 @@ public class RaycastShooting : MonoBehaviour
             Shoot();
         }
 
-        InteractionRaycast();
+        StartCoroutine(raycast);
     }
     private void Shoot()
     {
@@ -110,42 +114,6 @@ public class RaycastShooting : MonoBehaviour
         }
         StartCoroutine(cooldown);
     }
-    private void InteractionRaycast()
-    {
-        Ray shootDirection = new(Camera.main.transform.position, Camera.main.transform.forward);
-
-        if (!canInteract)
-        {
-            return;
-        }
-
-        if (Physics.Raycast(shootDirection, out RaycastHit hit))
-        {
-            if (hit.collider != null)
-            {
-                IEnumerator debugRaycast = RaycastDebug();
-                IEnumerator interactCooldown = InteractionCooldown(0.1f);
-                if(debug)
-                {
-                    StartCoroutine(debugRaycast);
-                    GameObject raycastBullet = Instantiate(raycastVisual, hit.point, Camera.main.transform.rotation);
-                    Destroy(raycastBullet, 1);
-                    Debug.Log("Hit " + hit.collider.name);
-                }
-                if (hit.collider.CompareTag("Item"))
-                {
-                    Debug.Log("Can pick this up.");
-                    canPickup = true;
-                }
-                else
-                {
-                    canPickup = false;
-                }
-                StartCoroutine(interactCooldown);
-            }
-        }
-    }
-
     private IEnumerator RaycastDebug()
     {
         if (!debug)
@@ -171,11 +139,76 @@ public class RaycastShooting : MonoBehaviour
         yield return new WaitForSeconds(seconds);
         canAttack = true;
     }
-    private IEnumerator InteractionCooldown(float seconds)
+    private IEnumerator InteractionRaycast()
     {
-        canInteract = false;
-        yield return new WaitForSeconds(seconds);
-        canInteract = true;
+        Ray shootDirection = new(Camera.main.transform.position, Camera.main.transform.forward);
+
+        if (!canInteract)
+        {
+            yield return null;
+        }
+
+        if (Physics.Raycast(shootDirection, out RaycastHit hit))
+        {
+
+            if (hit.collider != null)
+            {
+                IEnumerator debugRaycast = RaycastDebug();
+                if (debug)
+                {
+                    StartCoroutine(debugRaycast);
+                    GameObject raycastBullet = Instantiate(raycastVisual, hit.point, Camera.main.transform.rotation);
+                    Destroy(raycastBullet, 1);
+                    Debug.Log("Hit " + hit.collider.name);
+                }
+                if (hit.collider.CompareTag("Item"))
+                {
+                    Debug.Log("Can pick this up.");
+                    canPickup = true;
+                }
+                else
+                {
+                    canPickup = false;
+                }
+            }
+        }
+    }
+
+    // Input system actions. Feel free to move if necessary
+    void OnInteract(InputValue value)
+    {
+        if(value.isPressed)
+        {
+            Debug.Log("test");
+            Ray shootDirection = new(Camera.main.transform.position, Camera.main.transform.forward);
+
+            if (!canInteract)
+            {
+                Debug.Log("brapp");
+                return;
+            }
+
+            if (Physics.Raycast(shootDirection, out RaycastHit hit))
+            {
+                if (hit.collider != null)
+                {
+                    Debug.Log("ssss");
+                    IEnumerator debugRaycast = RaycastDebug();
+                    if (debug)
+                    {
+                        StartCoroutine(debugRaycast);
+                        GameObject raycastBullet = Instantiate(raycastVisual, hit.point, Camera.main.transform.rotation);
+                        Destroy(raycastBullet, 1);
+                        Debug.Log("Hit " + hit.collider.name);
+                    }
+                    if (value.isPressed && canPickup)
+                    {
+                        Debug.Log("Pik up");
+                        Destroy(hit.transform.gameObject);
+                    }
+                }
+            }
+        }
     }
 
     // for editing in-game
