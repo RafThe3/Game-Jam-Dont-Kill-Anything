@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class Player : MonoBehaviour
 {
     [Header("Health")]
+    [SerializeField] private bool isInvincible = false;
     [Min(0), SerializeField] private int maxHealth = 100;
     [Min(0), SerializeField] private int healAmount = 10;
     [Min(0), SerializeField] private int startingHealthPacks = 1;
@@ -25,6 +26,7 @@ public class Player : MonoBehaviour
     [Min(0), SerializeField] private int hungerDecreaseAmount = 1;
     [Min(0), SerializeField] private float hungerDecreaseInterval = 1;
     [Min(0), SerializeField] private int healthDecreaseAmount = 1;
+    [Min(0), SerializeField] private int hungerRestoreAmount = 1;
     [Min(0), SerializeField] private float healthDecreaseInterval = 1;
     [Min(0), SerializeField] private float eatInterval = 1;
     [SerializeField] private Slider hungerBar;
@@ -50,6 +52,10 @@ public class Player : MonoBehaviour
     private GameObject currentObjectInHand;
     private List<GameObject> inventory = new();
 
+    //Other
+    private int numFood;
+    private Food food;
+
     private void Awake()
     {
         Time.timeScale = 1;
@@ -73,10 +79,10 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-        FixHealthBugs();
+        FixBugs();
         UpdateUI();
         DecreaseHunger(hungerDecreaseAmount);
-        Debug.Log(currentObjectInHand);
+        Debug.Log($"Hunger: {currentHunger}");
 
         if (currentHealth <= 0)
         {
@@ -120,22 +126,23 @@ public class Player : MonoBehaviour
         {
             //code
         }
+
         //test
-        if (Input.GetKeyDown(KeyCode.F)
-            && !isEating
-            && canEat
-            && currentObjectInHand.layer == LayerMask.GetMask("Food")
-            && currentObjectInHand != null)
+        if (Input.GetKeyDown(KeyCode.R))
         {
-            Debug.Log("Eating");
-            StartCoroutine(Eat(10));
+            TakeDamage(10);
+        }
+
+        if (Input.GetKeyDown(KeyCode.F) && !isEating && canEat && numFood > 0)
+        {
+            StartCoroutine(Eat(hungerRestoreAmount));
         }
     }
 
     //Methods
 
     //Health
-    private void FixHealthBugs()
+    private void FixBugs()
     {
         if (currentHealth < 0)
         {
@@ -146,10 +153,25 @@ public class Player : MonoBehaviour
         {
             currentHealth = maxHealth;
         }
+
+        if (currentHunger < 0)
+        {
+            currentHunger = 0;
+        }
+
+        if (currentHunger > maxHealth)
+        {
+            currentHunger = maxHealth;
+        }
     }
 
     public void TakeDamage(int health)
     {
+        if (isInvincible)
+        {
+            return;
+        }
+
         if (currentHealth > 0)
         {
             currentHealth -= health;
@@ -194,9 +216,12 @@ public class Player : MonoBehaviour
         if (currentHunger < maxHunger)
         {
             currentHunger += amount;
+            numFood--;
+            Debug.Log("Eating");
         }
 
         yield return new WaitForSeconds(eatInterval);
+
         isEating = false;
     }
 
@@ -211,7 +236,7 @@ public class Player : MonoBehaviour
 
     private void Die()
     {
-        GetComponent<CharacterController>().Move(Vector3.zero);
+        Time.timeScale = 0;
     }
 
     public void AddHealthPack()
@@ -229,6 +254,12 @@ public class Player : MonoBehaviour
         GameObject clone = Instantiate(hit.collider.gameObject, hand.transform.position, resetRotation, hand.transform);
         clone.GetComponent<Rigidbody>().isKinematic = true;
         clone.GetComponent<Collider>().isTrigger = true;
+        currentObjectInHand = clone;
+        Debug.Log(clone.layer);
+        if (clone.layer == 6)
+        {
+            numFood++;
+        }
         inventory.Add(clone);
         Destroy(hit.collider.gameObject);
     }

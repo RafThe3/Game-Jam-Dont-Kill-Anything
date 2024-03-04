@@ -274,7 +274,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 45410469}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a6800c261f792d84199efdc3cc184573, type: 3}
   m_Name: 
@@ -411,6 +411,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2c4643f948679a4797b555fedac8aee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isInvincible: 0
   maxHealth: 100
   healAmount: 20
   startingHealthPacks: 3
@@ -423,10 +424,12 @@ MonoBehaviour:
   healthPacksText: {fileID: 25749916}
   healSFX: {fileID: 0}
   hurtSFX: {fileID: 0}
+  canEat: 1
   maxHunger: 100
-  hungerDecreaseAmount: 10
-  hungerDecreaseInterval: 120
+  hungerDecreaseAmount: 15
+  hungerDecreaseInterval: 150
   healthDecreaseAmount: 2
+  hungerRestoreAmount: 10
   healthDecreaseInterval: 10
   eatInterval: 1
   hungerBar: {fileID: 1770163346}
@@ -437,7 +440,6 @@ MonoBehaviour:
   hand: {fileID: 1868820179}
   pickupDistance: 3
   interactText: {fileID: 1110303422}
-  inventory: {fileID: 0}
 --- !u!1 &123273998
 GameObject:
   m_ObjectHideFlags: 0
@@ -1926,6 +1928,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &1570403261
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1570403258}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05ffb3d079205ab4ba389c682fbf9247, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hungerRestoreAmount: 15
 --- !u!1 &1637665607
 GameObject:
   m_ObjectHideFlags: 0
@@ -2805,6 +2820,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 747557153577674195, guid: 580820bf935b44f49b29c7dc8470d801, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1570403259}
+    - targetCorrespondingSourceObject: {fileID: 747557153577674195, guid: 580820bf935b44f49b29c7dc8470d801, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1570403261}
   m_SourcePrefab: {fileID: 100100000, guid: 580820bf935b44f49b29c7dc8470d801, type: 3}
 --- !u!1001 &9111367926443552054
 PrefabInstance:
