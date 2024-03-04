@@ -65,25 +65,29 @@ public class GrowingBehavior : MonoBehaviour
         {
             gameObject.transform.localScale = new Vector3(maxGrowthSize, maxGrowthSize, maxGrowthSize);
             cropActive = false;
-            HarvestTime();
         }
     }
 
     private void BerryGrowth()
     {
-        if(harvestable)
+        if (transform.childCount == 0)
+        {
+            harvestable = false;
+        }
+
+        if (harvestable)
         {
             return;
         }
 
         timer += Time.deltaTime;
         bool produce = timer >= Random.Range(8, 30);
+        GameObject berryObject;
 
         if (!cropActive || !harvestable)
         {
             if (produce)
             {
-                GameObject berryObject;
                 berryObject = Instantiate(berries, transform.position, Quaternion.identity);
                 berryObject.transform.parent = gameObject.transform;
                 harvestable = true;
