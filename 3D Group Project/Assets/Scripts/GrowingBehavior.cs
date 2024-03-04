@@ -10,23 +10,24 @@ public class GrowingBehavior : MonoBehaviour
     [SerializeField] private float startGrowthSize = 0.01f;
     [SerializeField] private float maxGrowthSize = 0.45f;
     [SerializeField] private float growthTime = 1;
+    [SerializeField] private float karmaAmount = 5;
+    [SerializeField] private GameObject berries;
+    [SerializeField] private bool berryBush = false;
     [SerializeField] public bool harvestable = false;
 
-
+    private KarmaSystem karmaSystem;
     private float growthRate;
     private float currentGrowth;
-    private float maxGrowth;
+    private float timer;
     private bool active = false;
     private bool cropActive = true;
     private void Awake()
     {
         growthRate = startGrowthSize / 2;
+        maxGrowthSize = Random.Range(maxGrowthSize / 1.05f, maxGrowthSize * 1.05f);
         harvestable = false;
-        gameObject.transform.localScale = new Vector3 (startGrowthSize, startGrowthSize, startGrowthSize);
-    }
-
-    private void Start()
-    {
+        gameObject.transform.localScale = new Vector3(startGrowthSize, startGrowthSize, startGrowthSize);
+        karmaSystem = FindFirstObjectByType<KarmaSystem>();
     }
 
     private void Update()
@@ -37,12 +38,16 @@ public class GrowingBehavior : MonoBehaviour
             active = true;
             StartCoroutine(growth);
         }
-
+        if(berryBush && !cropActive)
+        {
+            BerryGrowth();
+        }
     }
 
-    private void GrowthCycle()
+    private void HarvestTime()
     {
-
+        harvestable = true;
+        karmaSystem.LoseKarma(karmaAmount);
     }
 
     private IEnumerator Growth()
@@ -60,7 +65,30 @@ public class GrowingBehavior : MonoBehaviour
         {
             gameObject.transform.localScale = new Vector3(maxGrowthSize, maxGrowthSize, maxGrowthSize);
             cropActive = false;
+            HarvestTime();
         }
     }
 
+    private void BerryGrowth()
+    {
+        if(harvestable)
+        {
+            return;
+        }
+
+        timer += Time.deltaTime;
+        bool produce = timer >= Random.Range(8, 30);
+
+        if (!cropActive || !harvestable)
+        {
+            if (produce)
+            {
+                GameObject berryObject;
+                berryObject = Instantiate(berries, transform.position, Quaternion.identity);
+                berryObject.transform.parent = gameObject.transform;
+                harvestable = true;
+                timer = 0;
+            }
+        }
+    }
 }

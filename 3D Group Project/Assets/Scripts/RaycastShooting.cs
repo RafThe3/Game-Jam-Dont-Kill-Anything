@@ -183,12 +183,10 @@ public class RaycastShooting : MonoBehaviour
     {
         if(value.isPressed)
         {
-            Debug.Log("test");
             Ray shootDirection = new(Camera.main.transform.position, Camera.main.transform.forward);
 
             if (!canInteract)
             {
-                Debug.Log("brapp");
                 return;
             }
 
@@ -196,7 +194,6 @@ public class RaycastShooting : MonoBehaviour
             {
                 if (hit.collider != null)
                 {
-                    Debug.Log("ssss");
                     IEnumerator debugRaycast = RaycastDebug();
                     if (debug)
                     {
@@ -207,8 +204,16 @@ public class RaycastShooting : MonoBehaviour
                     }
                     if (value.isPressed && canPickup)
                     {
-                        Debug.Log("Pik up");
-                        Destroy(hit.transform.gameObject);
+                        if (hit.transform.root.tag == "Plant")
+                        {
+                            Debug.Log("Picked up " + hit.transform.gameObject);
+                            hit.transform.root.parent.GetComponent<GrowingBehavior>().harvestable = false;
+                            Destroy(hit.transform.gameObject);
+                        }
+                        else {
+                            Debug.Log("Picked up " + hit.transform.gameObject);
+                            Destroy(hit.transform.gameObject);
+                        }
                     }
                 }
             }
