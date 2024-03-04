@@ -449,6 +449,7 @@ MonoBehaviour:
   healthPacksText: {fileID: 2080067015}
   healSFX: {fileID: 0}
   hurtSFX: {fileID: 0}
+  canEat: 1
   maxHunger: 100
   hungerDecreaseAmount: 1
   hungerDecreaseInterval: 1
@@ -463,7 +464,6 @@ MonoBehaviour:
   hand: {fileID: 1302813199}
   pickupDistance: 1
   interactText: {fileID: 53865085}
-  inventory: {fileID: 0}
 --- !u!4 &111785473 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8997996947095583982, guid: c5efc39a8aaf6e64ea40e9ad573e9b47, type: 3}
@@ -636,9 +636,11 @@ MonoBehaviour:
   maxGrowthSize: 0.45
   growthTime: 0.05
   karmaAmount: 5
-  berries: {fileID: 0}
-  berryBush: 0
   harvestable: 0
+  berries: {fileID: 0}
+  berryGrowthTime: 5
+  berryBush: 0
+  maxBerries: 1
 --- !u!1 &155292518
 GameObject:
   m_ObjectHideFlags: 0
@@ -1430,10 +1432,12 @@ MonoBehaviour:
   startGrowthSize: 1
   maxGrowthSize: 10
   growthTime: 0.1
-  karmaAmount: 5
-  berries: {fileID: 0}
-  berryBush: 0
+  karmaAmount: 1
   harvestable: 0
+  berries: {fileID: 2042679495720202816, guid: bf84a4de8bc2dea4d8edecafb35f9aa1, type: 3}
+  berryGrowthTime: 5
+  berryBush: 1
+  maxBerries: 5
 --- !u!114 &687009241
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2645,9 +2649,11 @@ MonoBehaviour:
   maxGrowthSize: 0.45
   growthTime: 0.05
   karmaAmount: 5
-  berries: {fileID: 0}
-  berryBush: 0
   harvestable: 0
+  berries: {fileID: 0}
+  berryGrowthTime: 5
+  berryBush: 0
+  maxBerries: 1
 --- !u!64 &775633492
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -2773,9 +2779,11 @@ MonoBehaviour:
   maxGrowthSize: 0.45
   growthTime: 0.05
   karmaAmount: 5
-  berries: {fileID: 0}
-  berryBush: 0
   harvestable: 0
+  berries: {fileID: 0}
+  berryGrowthTime: 5
+  berryBush: 0
+  maxBerries: 1
 --- !u!850595691 &849604329
 LightingSettings:
   m_ObjectHideFlags: 0

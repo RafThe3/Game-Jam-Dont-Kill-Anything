@@ -1,19 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using UnityEditor.Build;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
 public class GrowingBehavior : MonoBehaviour
 {
-
+    [Header("General Crop Settings")]
     [SerializeField] private float startGrowthSize = 0.01f;
     [SerializeField] private float maxGrowthSize = 0.45f;
     [SerializeField] private float growthTime = 1;
     [SerializeField] private float karmaAmount = 5;
-    [SerializeField] private GameObject berries;
-    [SerializeField] private bool berryBush = false;
     [SerializeField] public bool harvestable = false;
+
+    [Header("Berry Settings")]
+    [SerializeField] private GameObject berries;
+    [Tooltip("This number will be halved and doubled in-game, so edit with caution"), SerializeField] private float berryGrowthTime = 5;
+    [SerializeField] private bool berryBush = false;
+    [Tooltip("Max number of berries to generate before they need to be harvested"), SerializeField] private int maxBerries = 3;
 
     private KarmaSystem karmaSystem;
     private float growthRate;
@@ -65,12 +70,15 @@ public class GrowingBehavior : MonoBehaviour
         {
             gameObject.transform.localScale = new Vector3(maxGrowthSize, maxGrowthSize, maxGrowthSize);
             cropActive = false;
+            if(!berryBush)
+            {
+                HarvestTime();
+            }
         }
     }
-
     private void BerryGrowth()
     {
-        if (transform.childCount == 0)
+        if (transform.childCount < maxBerries)
         {
             harvestable = false;
         }
@@ -81,7 +89,7 @@ public class GrowingBehavior : MonoBehaviour
         }
 
         timer += Time.deltaTime;
-        bool produce = timer >= Random.Range(8, 30);
+        bool produce = timer >= Random.Range(berryGrowthTime / 2, berryGrowthTime * 2);
         GameObject berryObject;
 
         if (!cropActive || !harvestable)
@@ -94,5 +102,10 @@ public class GrowingBehavior : MonoBehaviour
                 timer = 0;
             }
         }
+    }
+    private void ResetGrowth()
+    {
+        gameObject.transform.localScale = new Vector3(gameObject.transform.localScale.x + growthRate, gameObject.transform.localScale.y + growthRate, gameObject.transform.localScale.z + growthRate);
+        cropActive = true;
     }
 }
