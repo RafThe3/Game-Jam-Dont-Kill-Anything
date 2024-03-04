@@ -13,6 +13,10 @@ PrefabInstance:
       value: Cheese
       objectReference: {fileID: 0}
     - target: {fileID: 100000, guid: 47365cc78e5cfad41badc534e3d2b7e1, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 47365cc78e5cfad41badc534e3d2b7e1, type: 3}
       propertyPath: m_TagString
       value: Item
       objectReference: {fileID: 0}

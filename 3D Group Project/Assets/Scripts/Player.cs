@@ -20,6 +20,7 @@ public class Player : MonoBehaviour
     [SerializeField] private AudioClip healSFX, hurtSFX;
 
     [Header("Hunger")]
+    [SerializeField] private bool canEat = true;
     [Min(0), SerializeField] private int maxHunger = 100;
     [Min(0), SerializeField] private int hungerDecreaseAmount = 1;
     [Min(0), SerializeField] private float hungerDecreaseInterval = 1;
@@ -36,7 +37,6 @@ public class Player : MonoBehaviour
     [SerializeField] private GameObject hand;
     [Min(0), SerializeField] private float pickupDistance = 1;
     [SerializeField] private TextMeshProUGUI interactText;
-    [SerializeField] private GameObject inventory;
 
     //Internal Variables
 
@@ -45,6 +45,10 @@ public class Player : MonoBehaviour
     private AudioSource audioSource;
     private bool isHealing, isEating;
     private float hungerDecreaseTimer = 0, healthDecreaseTimer = 0;
+
+    //Inventory
+    private GameObject currentObjectInHand;
+    private List<GameObject> inventory = new();
 
     private void Awake()
     {
@@ -72,6 +76,7 @@ public class Player : MonoBehaviour
         FixHealthBugs();
         UpdateUI();
         DecreaseHunger(hungerDecreaseAmount);
+        Debug.Log(currentObjectInHand);
 
         if (currentHealth <= 0)
         {
@@ -115,10 +120,14 @@ public class Player : MonoBehaviour
         {
             //code
         }
-
         //test
-        if (Input.GetKeyDown(KeyCode.F) && !isEating)
+        if (Input.GetKeyDown(KeyCode.F)
+            && !isEating
+            && canEat
+            && currentObjectInHand.layer == LayerMask.GetMask("Food")
+            && currentObjectInHand != null)
         {
+            Debug.Log("Eating");
             StartCoroutine(Eat(10));
         }
     }
@@ -217,11 +226,10 @@ public class Player : MonoBehaviour
     private void PickupObject(RaycastHit hit)
     {
         Quaternion resetRotation = new(0, 0, 0, 0);
-        //GameObject clone = Instantiate(hit.collider.gameObject, inventory.transform.position, resetRotation, inventory.transform);
         GameObject clone = Instantiate(hit.collider.gameObject, hand.transform.position, resetRotation, hand.transform);
         clone.GetComponent<Rigidbody>().isKinematic = true;
         clone.GetComponent<Collider>().isTrigger = true;
-        //clone.SetActive(false);
+        inventory.Add(clone);
         Destroy(hit.collider.gameObject);
     }
 
