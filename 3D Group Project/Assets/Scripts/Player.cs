@@ -54,7 +54,6 @@ public class Player : MonoBehaviour
 
     //Other
     private int numFood;
-    private Food food;
 
     private void Awake()
     {
@@ -82,7 +81,6 @@ public class Player : MonoBehaviour
         FixBugs();
         UpdateUI();
         DecreaseHunger(hungerDecreaseAmount);
-        Debug.Log($"Hunger: {currentHunger}");
 
         if (currentHealth <= 0)
         {
@@ -112,8 +110,6 @@ public class Player : MonoBehaviour
             {
                 interactText.text = $"Press {KeyCode.E} to pickup {hit.collider.name}";
             }
-
-            Debug.Log("Can pickup object");
 
             if (Input.GetKeyDown(KeyCode.E) && isItem)
             {
