@@ -29,7 +29,7 @@ public class GrowingBehavior : MonoBehaviour
     private void Awake()
     {
         growthRate = startGrowthSize / 2;
-        maxGrowthSize = Random.Range(maxGrowthSize / 1.05f, maxGrowthSize * 1.05f);
+        maxGrowthSize = Random.Range(maxGrowthSize / 1.1f, maxGrowthSize * 1.1f);
         harvestable = false;
         gameObject.transform.localScale = new Vector3(startGrowthSize, startGrowthSize, startGrowthSize);
         karmaSystem = FindFirstObjectByType<KarmaSystem>();
@@ -97,6 +97,7 @@ public class GrowingBehavior : MonoBehaviour
             if (produce)
             {
                 berryObject = Instantiate(berries, transform.position, Quaternion.identity);
+                berryObject.name = berries.gameObject.name;
                 berryObject.transform.parent = gameObject.transform;
                 harvestable = true;
                 timer = 0;
