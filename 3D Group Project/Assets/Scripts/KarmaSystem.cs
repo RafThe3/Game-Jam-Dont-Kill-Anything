@@ -10,6 +10,12 @@ public class KarmaSystem : MonoBehaviour
     private void Awake()
     {
         karma = 0;
+        DontDestroyOnLoad(gameObject);
+    }
+
+    private void LateUpdate()
+    {
+        KarmaManager();
     }
 
     public void LoseKarma(float karmaLost)
@@ -21,5 +27,16 @@ public class KarmaSystem : MonoBehaviour
     {
         karma += karmaGained;
         Debug.Log("Gained karma. New karma is " + karma);
+    }
+    public void KarmaManager()
+    {
+        if (karma <= 0)
+        {
+            karma = 0;
+        }
+        if(karma >= 20)
+        {
+            Debug.Log("monster spawn");
+        }
     }
 }
