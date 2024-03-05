@@ -7,6 +7,7 @@ public class HealthSystem : MonoBehaviour
     private float currentHealth;
     private LootSystem lootSystem;
     private KarmaSystem karmaSystem;
+    private int timesToClone = 1;
 
     [Header("General Settings")]
     [Min(1), SerializeField] private float maxHealth = 5;
@@ -18,6 +19,7 @@ public class HealthSystem : MonoBehaviour
         currentHealth = maxHealth;
         lootSystem = GetComponent<LootSystem>();
         karmaSystem = FindFirstObjectByType<KarmaSystem>();
+        PlayerPrefs.SetInt("Times", 2);
     }
 
     private void Update()
@@ -29,6 +31,14 @@ public class HealthSystem : MonoBehaviour
         if (currentHealth > maxHealth)
         {
             currentHealth = maxHealth;
+        }
+    }
+
+    private void CloneEnemy(int amount)
+    {
+        for (int i = 0; i < amount; i++)
+        {
+            Instantiate(gameObject, new Vector3(370, 0, 370), Quaternion.identity);
         }
     }
 
@@ -53,8 +63,11 @@ public class HealthSystem : MonoBehaviour
         {
             return;
         }
-
         Debug.Log("BLEHHHH.. killed " + gameObject);
+        //Multiplies enemy when killed
+        CloneEnemy(PlayerPrefs.GetInt("Times"));
+        PlayerPrefs.SetInt("Times", PlayerPrefs.GetInt("Times") + 1);
+        //
         Destroy(gameObject);
         lootSystem.GetLoot();
         karmaSystem.GainKarma(karmaValue);

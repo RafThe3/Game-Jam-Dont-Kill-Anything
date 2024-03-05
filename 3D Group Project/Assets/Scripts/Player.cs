@@ -83,8 +83,7 @@ public class Player : MonoBehaviour
         FixBugs();
         UpdateUI();
         DecreaseHunger(hungerDecreaseAmount);
-        bool canGainHealthPack = false;
-
+        bool canGainHealthPack;
         canGainHealthPack = healthPacks < maxHealthPacks;
 
         if (canGainHealthPack)
@@ -100,6 +99,11 @@ public class Player : MonoBehaviour
         {
             healthPacks++;
             healthPackGainTimer = 0;
+        }
+
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            FindObjectOfType<HealthSystem>().TakeDamage(10);
         }
 
         if (currentHealth <= 0)
@@ -136,18 +140,6 @@ public class Player : MonoBehaviour
                 StartCoroutine(Eat(hungerRestoreAmount));
                 Destroy(hit.collider.gameObject);
             }
-        }
-
-        //Press Tab to holster items or have in hand
-        if (Input.GetKeyDown(KeyCode.Tab))
-        {
-            //code
-        }
-
-        //test
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            TakeDamage(10);
         }
 
         if (Input.GetKeyDown(KeyCode.F) && !isEating && canEat && numFood > 0)
@@ -253,7 +245,8 @@ public class Player : MonoBehaviour
 
     private void Die()
     {
-        Time.timeScale = 0;
+        Cursor.lockState = CursorLockMode.None;
+        UnityEngine.SceneManagement.SceneManager.LoadScene("Main Menu");
     }
 
     public void AddHealthPack()

@@ -48,4 +48,9 @@ public class EnemyNavMove : MonoBehaviour
             Attack(attackDamage);
         }
     }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawWireSphere(transform.position, chaseDistance);
+    }
 }

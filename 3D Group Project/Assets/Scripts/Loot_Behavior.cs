@@ -6,6 +6,7 @@ using static UnityEditor.Progress;
 public class Loot_Behavior : MonoBehaviour
 {
     public Item item;
+    public GameObject[] items;
     public float chance;
     public int minQuantity;
     public int maxQuantity;

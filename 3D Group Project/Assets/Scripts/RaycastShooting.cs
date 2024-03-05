@@ -38,7 +38,7 @@ public class RaycastShooting : MonoBehaviour
     private void Awake()
     {
         lineRenderer = GetComponent<LineRenderer>();
-        pickupText.GetComponent<TextMeshProUGUI>().enabled = false;
+        //pickupText.enabled = false;
         collisionPoint.transform.localScale = new Vector3(meleeRadius * 2, meleeRadius * 2, meleeRadius * 2);
     }
     private void Update()
@@ -91,6 +91,7 @@ public class RaycastShooting : MonoBehaviour
             }
         }
     }
+
     private void Melee()
     {
         Collider[] hits = Physics.OverlapSphere(collisionPoint.transform.position, meleeRadius);

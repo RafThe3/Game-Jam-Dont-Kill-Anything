@@ -25,4 +25,9 @@ public class GameManager : MonoBehaviour
         Debug.Log("Quitting");
         Application.Quit();
     }
+
+    public void LockCursor()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+    }
 }
