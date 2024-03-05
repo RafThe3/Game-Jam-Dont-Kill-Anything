@@ -12,6 +12,7 @@ public class Player : MonoBehaviour
     [Min(0), SerializeField] private int healAmount = 10;
     [Min(0), SerializeField] private int startingHealthPacks = 1;
     [Min(0), SerializeField] private int maxHealthPacks = 10;
+    [Min(0), SerializeField] private int healthPackGainInterval = 1;
     [Min(0), SerializeField] private float healDelay = 1;
     [SerializeField] private Slider healthBar;
     [SerializeField] private Image healthBarFillArea;
@@ -47,6 +48,7 @@ public class Player : MonoBehaviour
     private AudioSource audioSource;
     private bool isHealing, isEating;
     private float hungerDecreaseTimer = 0, healthDecreaseTimer = 0;
+    private float healthPackGainTimer = 0;
 
     //Inventory
     private GameObject currentObjectInHand;
@@ -81,6 +83,24 @@ public class Player : MonoBehaviour
         FixBugs();
         UpdateUI();
         DecreaseHunger(hungerDecreaseAmount);
+        bool canGainHealthPack = false;
+
+        canGainHealthPack = healthPacks < maxHealthPacks;
+
+        if (canGainHealthPack)
+        {
+            healthPackGainTimer += Time.deltaTime;
+        }
+        else
+        {
+            healthPackGainTimer = 0;
+        }
+
+        if (healthPacks < maxHealthPacks && healthPackGainTimer >= healthPackGainInterval)
+        {
+            healthPacks++;
+            healthPackGainTimer = 0;
+        }
 
         if (currentHealth <= 0)
         {

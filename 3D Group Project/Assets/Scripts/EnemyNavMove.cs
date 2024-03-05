@@ -18,6 +18,7 @@ public class EnemyNavMove : MonoBehaviour
     {
         home = transform.position;
         agent = GetComponent<NavMeshAgent>();
+        attackTimer = attackInterval;
     }
 
     void Update()
@@ -40,9 +41,9 @@ public class EnemyNavMove : MonoBehaviour
         attackTimer = 0;
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnCollisionStay(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Player") && attackInterval >= attackTimer)
+        if (collision.gameObject.CompareTag("Player") && attackTimer >= attackInterval)
         {
             Attack(attackDamage);
         }

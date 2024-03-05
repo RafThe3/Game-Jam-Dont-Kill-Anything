@@ -19,7 +19,6 @@ public class PauseMenu : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             EnablePauseMenu();
-            
         }
     }
 
@@ -30,18 +29,21 @@ public class PauseMenu : MonoBehaviour
             case 1:
                 Time.timeScale = 0;
                 pauseMenu.enabled = true;
+                Cursor.lockState = CursorLockMode.None;
                 break;
             default:
                 Time.timeScale = 1;
                 pauseMenu.enabled = false;
+                Cursor.lockState = CursorLockMode.Locked;
                 break;
         }
     }
 
     public void Resume()
     {
-        pauseMenu.enabled = false;
         Time.timeScale = 1;
+        pauseMenu.enabled = false;
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     public void Quit()
