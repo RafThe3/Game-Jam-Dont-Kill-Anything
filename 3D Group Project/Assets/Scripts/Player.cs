@@ -108,12 +108,13 @@ public class Player : MonoBehaviour
 
             if (isItem)
             {
-                interactText.text = $"Press {KeyCode.E} to pickup {hit.collider.name}";
+                interactText.text = $"Press {KeyCode.E} to eat {hit.collider.name}";
             }
 
-            if (Input.GetKeyDown(KeyCode.E) && isItem)
+            if (Input.GetKeyDown(KeyCode.E) && isItem && currentHunger < maxHunger)
             {
-                PickupObject(hit);
+                StartCoroutine(Eat(hungerRestoreAmount));
+                Destroy(hit.collider.gameObject);
             }
         }
 

@@ -5,10 +5,14 @@ using UnityEngine.AI;
 
 public class EnemyNavMove : MonoBehaviour
 {
-    NavMeshAgent agent;
     [SerializeField] private GameObject player;
     [SerializeField] float chaseDistance = 10;
+    [Min(0), SerializeField] private float attackInterval = 1;
+    [Min(0), SerializeField] private int attackDamage = 1;
+
     Vector3 home;
+    NavMeshAgent agent;
+    private float attackTimer = 0;
 
     void Start()
     {
@@ -18,6 +22,7 @@ public class EnemyNavMove : MonoBehaviour
 
     void Update()
     {
+        attackTimer += Time.deltaTime;
         Vector3 moveDir = player.transform.position - transform.position;
         if(moveDir.magnitude < chaseDistance ) 
         {
@@ -26,6 +31,20 @@ public class EnemyNavMove : MonoBehaviour
         else
         {
             agent.destination = home;
+        }
+    }
+
+    private void Attack(int damage)
+    {
+        player.GetComponent<Player>().TakeDamage(damage);
+        attackTimer = 0;
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Player") && attackInterval >= attackTimer)
+        {
+            Attack(attackDamage);
         }
     }
 }
