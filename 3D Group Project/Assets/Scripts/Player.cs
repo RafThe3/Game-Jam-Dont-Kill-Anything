@@ -141,11 +141,6 @@ public class Player : MonoBehaviour
                 Destroy(hit.collider.gameObject);
             }
         }
-
-        if (Input.GetKeyDown(KeyCode.F) && !isEating && canEat && numFood > 0)
-        {
-            StartCoroutine(Eat(hungerRestoreAmount));
-        }
     }
 
     //Methods
@@ -220,6 +215,11 @@ public class Player : MonoBehaviour
 
     public IEnumerator Eat(int amount)
     {
+        if (currentHunger >= maxHunger && isEating)
+        {
+            yield break;
+        }
+
         isEating = true;
 
         if (currentHunger < maxHunger)

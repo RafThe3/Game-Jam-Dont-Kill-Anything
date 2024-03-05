@@ -68,6 +68,7 @@ public class HealthSystem : MonoBehaviour
         CloneEnemy(PlayerPrefs.GetInt("Times"));
         PlayerPrefs.SetInt("Times", PlayerPrefs.GetInt("Times") + 1);
         //
+        StartCoroutine(FindObjectOfType<Player>().Eat(20));
         Destroy(gameObject);
         lootSystem.GetLoot();
         karmaSystem.GainKarma(karmaValue);
