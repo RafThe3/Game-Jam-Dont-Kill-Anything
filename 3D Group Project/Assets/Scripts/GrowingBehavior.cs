@@ -24,6 +24,7 @@ public class GrowingBehavior : MonoBehaviour
     [Tooltip("Max number of berries to generate before they need to be harvested"), SerializeField] private int maxBerries = 3;
 
     private KarmaSystem karmaSystem;
+    private LootManager lootManager;
     private float growthRate;
     private float currentGrowth;
     private float timer;
@@ -36,6 +37,7 @@ public class GrowingBehavior : MonoBehaviour
         harvestable = false;
         gameObject.transform.localScale = new Vector3(startGrowthSize, startGrowthSize, startGrowthSize);
         karmaSystem = FindFirstObjectByType<KarmaSystem>();
+        lootManager = FindFirstObjectByType<LootManager>();
     }
 
     private void Update()
@@ -114,13 +116,14 @@ public class GrowingBehavior : MonoBehaviour
     }
     private void OnDestroy()
     {
-        if(berryBush)
+        if(berryBush && !lootManager.gameObject.IsDestroyed())
         {
             int plantCounter = transform.childCount;
             for (int i = 0; i < plantCounter; i++)
             {
                 GameObject newBerries = Instantiate(berries, transform.position, Quaternion.identity);
                 newBerries.name = berries.gameObject.name;
+                newBerries.transform.parent = lootManager.transform;
             }
         }
     }
