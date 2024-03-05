@@ -116,7 +116,7 @@ public class GrowingBehavior : MonoBehaviour
     }
     private void OnDestroy()
     {
-        if(berryBush && !lootManager.gameObject.IsDestroyed())
+        if(berryBush && lootManager.gameObject != null)
         {
             int plantCounter = transform.childCount;
             for (int i = 0; i < plantCounter; i++)

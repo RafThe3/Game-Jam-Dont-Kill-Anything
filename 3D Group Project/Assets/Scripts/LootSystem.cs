@@ -8,11 +8,11 @@ public class LootSystem : MonoBehaviour
 {
     [SerializeField] private Loot_Behavior[] lootTable;
     [SerializeField] private float lootSpread = 0;
-    private GameObject lootStorage;
+    private LootManager lootStorage;
 
     private void Awake()
     {
-        lootStorage = GameObject.Find("LootStorage");
+        lootStorage = FindFirstObjectByType<LootManager>();
     }
 
     public ArrayList GetLoot()
