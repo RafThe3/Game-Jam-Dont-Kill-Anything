@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -503,8 +503,8 @@ MonoBehaviour:
   growthTime: 0.1
   karmaAmount: 1
   harvestable: 0
-  berries: {fileID: 7429338618441937000, guid: 36b493499a483494eb560e3d56d762b9, type: 3}
-  berryGrowthTime: 5
+  berries: {fileID: 7537693360268612172, guid: 6799fdb428aedf54393114a1521d0ed8, type: 3}
+  berryGrowthTime: 1
   berryBush: 1
   maxBerries: 5
 --- !u!114 &119204855
@@ -521,6 +521,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 5
   karmaValue: 5
+--- !u!65 &119204859
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 119204852}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.081196055, y: 0.06605587, z: 0.08502018}
+  m_Center: {x: -0.00494973, y: 0.0075968667, z: -0.041605074}
 --- !u!1 &150396924
 GameObject:
   m_ObjectHideFlags: 0
@@ -816,6 +837,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Tree9_Leaf (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 1de95aafaed1b594b88a317c6a6ac028, type: 3}
+      propertyPath: m_TagString
+      value: Enemy
+      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 1de95aafaed1b594b88a317c6a6ac028, type: 3}
       propertyPath: m_LocalScale.x
       value: 1
@@ -881,6 +906,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 100000, guid: 1de95aafaed1b594b88a317c6a6ac028, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1146379164}
+    - targetCorrespondingSourceObject: {fileID: 100000, guid: 1de95aafaed1b594b88a317c6a6ac028, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1146379170}
   m_SourcePrefab: {fileID: 100100000, guid: 1de95aafaed1b594b88a317c6a6ac028, type: 3}
 --- !u!1 &265211122
 GameObject:
@@ -1629,6 +1657,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Tree9_Leaf
       objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 1de95aafaed1b594b88a317c6a6ac028, type: 3}
+      propertyPath: m_TagString
+      value: Enemy
+      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 1de95aafaed1b594b88a317c6a6ac028, type: 3}
       propertyPath: m_LocalScale.x
       value: 1
@@ -1694,6 +1726,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 100000, guid: 1de95aafaed1b594b88a317c6a6ac028, type: 3}
       insertIndex: -1
       addedObject: {fileID: 687009239}
+    - targetCorrespondingSourceObject: {fileID: 100000, guid: 1de95aafaed1b594b88a317c6a6ac028, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 687009245}
   m_SourcePrefab: {fileID: 100100000, guid: 1de95aafaed1b594b88a317c6a6ac028, type: 3}
 --- !u!1 &687009238 stripped
 GameObject:
@@ -1733,7 +1768,7 @@ MonoBehaviour:
   karmaAmount: 1
   harvestable: 0
   berries: {fileID: 2042679495720202816, guid: bf84a4de8bc2dea4d8edecafb35f9aa1, type: 3}
-  berryGrowthTime: 5
+  berryGrowthTime: 1
   berryBush: 1
   maxBerries: 5
 --- !u!114 &687009241
@@ -1750,6 +1785,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 5
   karmaValue: 5
+--- !u!65 &687009245
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 687009238}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.081196055, y: 0.06605587, z: 0.08502018}
+  m_Center: {x: -0.00494973, y: 0.0075968667, z: -0.041605074}
 --- !u!1 &689243237
 GameObject:
   m_ObjectHideFlags: 0
@@ -3262,6 +3318,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 111785452}
   chaseDistance: 10
+  attackInterval: 1
+  attackDamage: 1
 --- !u!1 &942596669
 GameObject:
   m_ObjectHideFlags: 0
@@ -3405,6 +3463,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 4135013735270702856, guid: c5efc39a8aaf6e64ea40e9ad573e9b47, type: 3}
       insertIndex: -1
       addedObject: {fileID: 281530884}
+    - targetCorrespondingSourceObject: {fileID: 4135013735270702856, guid: c5efc39a8aaf6e64ea40e9ad573e9b47, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1302813202}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 8616685848737228372, guid: c5efc39a8aaf6e64ea40e9ad573e9b47, type: 3}
       insertIndex: -1
@@ -3683,7 +3744,7 @@ MonoBehaviour:
   karmaAmount: 1
   harvestable: 0
   berries: {fileID: 2042679495720202816, guid: bf84a4de8bc2dea4d8edecafb35f9aa1, type: 3}
-  berryGrowthTime: 5
+  berryGrowthTime: 1
   berryBush: 1
   maxBerries: 5
 --- !u!114 &1146379166
@@ -3700,6 +3761,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 5
   karmaValue: 5
+--- !u!65 &1146379170
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1146379163}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.081196055, y: 0.06605587, z: 0.08502018}
+  m_Center: {x: -0.00494973, y: 0.0075968667, z: -0.041605074}
 --- !u!1 &1178282681
 GameObject:
   m_ObjectHideFlags: 0
@@ -4053,7 +4135,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: bdbfcb6fe9746404e880dd2836a5266c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4092,11 +4174,11 @@ Transform:
   m_GameObject: {fileID: 1302813199}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.28730115, y: -0.4279992, z: 0.44400334}
+  m_LocalPosition: {x: 0.29930115, y: -0.134, z: 0.73000336}
   m_LocalScale: {x: 0.4637812, y: 0.4637812, z: 0.4637812}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 281530884}
+  m_Father: {fileID: 1868738236}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1346763715
 GameObject:
@@ -4837,6 +4919,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Tree9_Leaf (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 1de95aafaed1b594b88a317c6a6ac028, type: 3}
+      propertyPath: m_TagString
+      value: Enemy
+      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 1de95aafaed1b594b88a317c6a6ac028, type: 3}
       propertyPath: m_LocalScale.x
       value: 1
@@ -4902,6 +4988,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 100000, guid: 1de95aafaed1b594b88a317c6a6ac028, type: 3}
       insertIndex: -1
       addedObject: {fileID: 119204853}
+    - targetCorrespondingSourceObject: {fileID: 100000, guid: 1de95aafaed1b594b88a317c6a6ac028, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 119204859}
   m_SourcePrefab: {fileID: 100100000, guid: 1de95aafaed1b594b88a317c6a6ac028, type: 3}
 --- !u!43 &1849472768
 Mesh:
@@ -5277,9 +5366,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 9005220659476430818, guid: 2d3a85ecde41a8246a79669975912b74, type: 3}
       insertIndex: -1
       addedObject: {fileID: 632404244}
-    - targetCorrespondingSourceObject: {fileID: 9005220659476430818, guid: 2d3a85ecde41a8246a79669975912b74, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1302813202}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2d3a85ecde41a8246a79669975912b74, type: 3}
 --- !u!1 &1981424505

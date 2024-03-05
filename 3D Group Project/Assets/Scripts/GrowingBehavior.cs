@@ -1,7 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using Unity.VisualScripting;
+using UnityEditor;
 using UnityEditor.Build;
+using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
@@ -108,5 +111,17 @@ public class GrowingBehavior : MonoBehaviour
     {
         gameObject.transform.localScale = new Vector3(gameObject.transform.localScale.x + growthRate, gameObject.transform.localScale.y + growthRate, gameObject.transform.localScale.z + growthRate);
         cropActive = true;
+    }
+    private void OnDestroy()
+    {
+        if(berryBush)
+        {
+            int plantCounter = transform.childCount;
+            for (int i = 0; i < plantCounter; i++)
+            {
+                GameObject newBerries = Instantiate(berries, transform.position, Quaternion.identity);
+                newBerries.name = berries.gameObject.name;
+            }
+        }
     }
 }
