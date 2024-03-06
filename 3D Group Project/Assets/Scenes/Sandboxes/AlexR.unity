@@ -266,6 +266,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 58127572}
+  - component: {fileID: 58127573}
   m_Layer: 0
   m_Name: TemporaryLootStorage
   m_TagString: Untagged
@@ -288,6 +289,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &58127573
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 58127571}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce353ec1178f88b4386c0d87022eeda1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &111785452 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8616685848737228372, guid: c5efc39a8aaf6e64ea40e9ad573e9b47, type: 3}
@@ -315,7 +328,7 @@ MonoBehaviour:
   canInteract: 1
   meleeCooldown: 0.5
   meleeDamage: 1
-  meleeRadius: 0.5
+  meleeRadius: 0.6
   rangedCooldown: 0.5
   rangedDamage: 0.5
   rangedRange: 0.5
@@ -442,6 +455,7 @@ MonoBehaviour:
   healAmount: 10
   startingHealthPacks: 1
   maxHealthPacks: 10
+  healthPackGainInterval: 1
   healDelay: 1
   healthBar: {fileID: 461540463}
   healthBarFillArea: {fileID: 1346763717}
@@ -1354,7 +1368,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05ffb3d079205ab4ba389c682fbf9247, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hungerRestoreAmount: 1
 --- !u!54 &498956402
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -3259,7 +3272,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   active: 1
-  selection: {fileID: 1421080617483930545, guid: feffce4b60d1acf4ebaeff904d9205e6, type: 3}
+  selection:
+  - {fileID: 6453124248985909297, guid: 21f529852f1d6df46b880b05eed4c14d, type: 3}
+  - {fileID: -732390907996027976, guid: feffce4b60d1acf4ebaeff904d9205e6, type: 3}
 --- !u!1 &1052568617
 GameObject:
   m_ObjectHideFlags: 0

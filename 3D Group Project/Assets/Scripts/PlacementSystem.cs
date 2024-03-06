@@ -5,11 +5,15 @@ using UnityEngine;
 public class PlacementSystem : MonoBehaviour
 {
     [SerializeField] private bool active = false;
-    [SerializeField] private GameObject selection;
+    [SerializeField] private Placement_Behavior[] selection;
+
+    private int selectedChoice;
+    private int choices;
 
     void Start()
     {
-        
+        choices = selection.Length;
+        selectedChoice = 0;
     }
     void Update()
     {
@@ -17,6 +21,21 @@ public class PlacementSystem : MonoBehaviour
         if ((Input.GetKeyDown(KeyCode.E)))
         {
             PlaceObject();
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            if(active)
+            {
+                active = false;
+            }
+            else
+            {
+                active = true;
+            }
+        }
+        else if(Input.GetKeyDown(KeyCode.Z))
+        {
+            CycleSelection();
         }
     }
 
@@ -34,7 +53,7 @@ public class PlacementSystem : MonoBehaviour
         {
             if (hit.collider != null)
             {
-                GameObject preview = selection.GetComponent<Placement_Behavior>().placementPreview;
+                GameObject preview = selection[selectedChoice].gameObject.GetComponent<Placement_Behavior>().placementPreview;
                 GameObject raycastBullet = Instantiate(preview, hit.point, Quaternion.identity);
                 raycastBullet.GetComponent<Collider>().enabled = false;
                 Destroy(raycastBullet, 0.025f);
@@ -55,8 +74,16 @@ public class PlacementSystem : MonoBehaviour
         {
             if (hit.collider != null)
             {
-                GameObject raycastBullet = Instantiate(selection, hit.point, Quaternion.identity);
+                GameObject raycastBullet = Instantiate(selection[selectedChoice].gameObject, hit.point, Quaternion.identity);
             }
         }
+    }
+    private void CycleSelection()
+    {
+        if (selectedChoice > choices)
+        {
+            selectedChoice = 0;
+        }
+        selectedChoice++;
     }
 }
